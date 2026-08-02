@@ -16,7 +16,7 @@ The package exposes `Componenta\App\WebSocket\ConfigProvider` through Composer m
 
 | Service or config key | Purpose |
 |---|---|
-| `WebSocketAppAdapter` | Creates a WebSocket app for `Scope::WEBSOCKET`. |
+| `ConfigKey::APP_BY_SCOPE[Scope::WEBSOCKET->value]` | Resolves the WebSocket scope directly to `App::class`. |
 | `WebSocketBootTargetAdapter` | Creates the boot target for WebSocket configuration. |
 | `WebSocketBootloader` | Loads `config/websocket.php` when it exists. |
 | `App` | Runs the configured WebSocket server application. |

@@ -9,8 +9,9 @@ use Componenta\App\Scope;
 use Componenta\App\WebSocket\App;
 use Componenta\App\WebSocket\Boot\Target\WebSocketBootTargetInterface;
 use Componenta\App\WebSocket\Boot\WebSocketBootTargetAdapter;
-use Componenta\App\WebSocket\WebSocketAppAdapter;
+use Componenta\App\WebSocket\ConfigProvider;
 use Componenta\Config\Config;
+use Componenta\Config\ConfigKey as DependencyConfigKey;
 use Componenta\WebSocket\Application\Error\WebSocketErrorContextInterface;
 use Componenta\WebSocket\Application\WebSocketApplicationInterface;
 use Componenta\WebSocket\Application\WebSocketApplicationResolverInterface;
@@ -86,7 +87,7 @@ final class WebSocketAppTestFallbackApp implements AppInterface
 }
 
 describe('websocket app integration', function (): void {
-    it('wraps the websocket app in a narrow configuration adapter', function (): void {
+    it('exposes websocket configuration through the boot target contract', function (): void {
         $server = new WebSocketAppTestServer();
         $defaultApplication = new WebSocketAppTestApplication();
         $configuredApplication = new WebSocketAppTestApplication();
@@ -118,7 +119,7 @@ describe('websocket app integration', function (): void {
             ->and($adapter->supports(Scope::HTTP))->toBeFalse();
     });
 
-    it('creates the websocket app only for websocket scope', function (): void {
+    it('registers and creates the websocket app for websocket scope', function (): void {
         $server = new WebSocketAppTestServer();
         $container = new WebSocketAppTestContainer([
             Config::class => new Config([]),
@@ -126,12 +127,12 @@ describe('websocket app integration', function (): void {
             WebSocketApplicationResolverInterface::class => new WebSocketAppTestResolver(),
             WebSocketApplicationInterface::class => new WebSocketAppTestApplication(),
         ]);
-        $adapter = new WebSocketAppAdapter();
+        $config = (new ConfigProvider())();
+        $factory = $config[DependencyConfigKey::DEPENDENCIES][DependencyConfigKey::FACTORIES][App::class];
 
-        $webSocketApp = $adapter->createApp(Scope::WEBSOCKET, $container, new Config([]));
+        $webSocketApp = $factory($container);
 
-        expect($webSocketApp)->toBeInstanceOf(App::class)
-            ->and($adapter->supports(Scope::WEBSOCKET))->toBeTrue()
-            ->and($adapter->supports(Scope::HTTP))->toBeFalse();
+        expect($config[\Componenta\App\ConfigKey::APP_BY_SCOPE][Scope::WEBSOCKET->value])->toBe(App::class)
+            ->and($webSocketApp)->toBeInstanceOf(App::class);
     });
 });

@@ -16,7 +16,7 @@ composer require componenta/websocket-app
 
 | Сервис или ключ конфигурации | Назначение |
 |---|---|
-| `WebSocketAppAdapter` | Создает WebSocket-приложение для `Scope::WEBSOCKET`. |
+| `ConfigKey::APP_BY_SCOPE[Scope::WEBSOCKET->value]` | Связывает область `Scope::WEBSOCKET` непосредственно с `App::class`. |
 | `WebSocketBootTargetAdapter` | Создает точку загрузки WebSocket-конфигурации. |
 | `WebSocketBootloader` | Загружает `config/websocket.php`, если файл существует. |
 | `App` | Запускает настроенное WebSocket-приложение сервера. |
