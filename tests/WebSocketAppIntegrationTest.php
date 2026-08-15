@@ -9,7 +9,6 @@ use Componenta\App\Scope;
 use Componenta\App\WebSocket\App;
 use Componenta\App\WebSocket\Boot\Target\WebSocketBootTargetInterface;
 use Componenta\App\WebSocket\Boot\WebSocketBootTargetAdapter;
-use Componenta\App\WebSocket\WebSocketAppAdapter;
 use Componenta\Config\Config;
 use Componenta\WebSocket\Application\Error\WebSocketErrorContextInterface;
 use Componenta\WebSocket\Application\WebSocketApplicationInterface;
@@ -118,20 +117,20 @@ describe('websocket app integration', function (): void {
             ->and($adapter->supports(Scope::HTTP))->toBeFalse();
     });
 
-    it('creates the websocket app only for websocket scope', function (): void {
+    it('creates the websocket app from its container contract', function (): void {
         $server = new WebSocketAppTestServer();
+        $application = new WebSocketAppTestApplication();
         $container = new WebSocketAppTestContainer([
             Config::class => new Config([]),
             WebSocketServerInterface::class => $server,
             WebSocketApplicationResolverInterface::class => new WebSocketAppTestResolver(),
-            WebSocketApplicationInterface::class => new WebSocketAppTestApplication(),
+            WebSocketApplicationInterface::class => $application,
         ]);
-        $adapter = new WebSocketAppAdapter();
 
-        $webSocketApp = $adapter->createApp(Scope::WEBSOCKET, $container, new Config([]));
+        $webSocketApp = App::createFromContainer($container);
+        $webSocketApp->run();
 
         expect($webSocketApp)->toBeInstanceOf(App::class)
-            ->and($adapter->supports(Scope::WEBSOCKET))->toBeTrue()
-            ->and($adapter->supports(Scope::HTTP))->toBeFalse();
+            ->and($server->application)->toBe($application);
     });
 });
