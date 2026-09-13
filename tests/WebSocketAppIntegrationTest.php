@@ -121,7 +121,7 @@ describe('websocket app integration', function (): void {
         $server = new WebSocketAppTestServer();
         $application = new WebSocketAppTestApplication();
         $container = new WebSocketAppTestContainer([
-            Config::class => new Config([]),
+            Config::class => new Config([], new \Componenta\Config\Environment(['APP_ENV' => 'development'])),
             WebSocketServerInterface::class => $server,
             WebSocketApplicationResolverInterface::class => new WebSocketAppTestResolver(),
             WebSocketApplicationInterface::class => $application,

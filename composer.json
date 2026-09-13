@@ -5,11 +5,11 @@
     "license": "MIT",
     "require": {
         "php": "^8.4",
-        "componenta/app": "^1.0 || ^2.0 || ^3.0.2",
-        "componenta/config": "^2.0.2",
+        "componenta/app": "^4.0.0",
+        "componenta/config": "^3.0.0",
         "componenta/path-resolver": "^1.0",
         "componenta/scope": "^1.0",
-        "componenta/websocket-server": "^1.0.2",
+        "componenta/websocket-server": "^1.1.0",
         "psr/container": "^2.0"
     },
     "require-dev": {
@@ -30,6 +30,9 @@
             "config-providers": [
                 "Componenta\\App\\WebSocket\\ConfigProvider"
             ]
+        },
+        "branch-alias": {
+            "dev-main": "1.1.x-dev"
         }
     },
     "scripts": {
