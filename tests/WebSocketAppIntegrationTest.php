@@ -85,6 +85,23 @@ final class WebSocketAppTestFallbackApp implements AppInterface
 }
 
 describe('websocket app integration', function (): void {
+    it('runs the configured WebSocket application through real providers and the shared app factory', function (): void {
+        $server = new WebSocketAppTestServer();
+        $application = new WebSocketAppTestApplication();
+        $composition = (new \Componenta\Config\ConfigFactory())->create(
+            new \Componenta\Config\Environment([]),
+            new \Componenta\App\ConfigProvider(),
+            new \Componenta\App\WebSocket\ConfigProvider(),
+            static fn (): array => ['dependencies' => ['services' => [
+                WebSocketServerInterface::class => $server,
+                WebSocketApplicationResolverInterface::class => new WebSocketAppTestResolver(),
+                WebSocketApplicationInterface::class => $application,
+            ]]],
+        );
+        $container = (new \Componenta\DI\ContainerFactory())->create($composition->config, $composition->dependencies);
+        $app = $container->get(\Componenta\App\AppFactoryInterface::class)->createApp(Scope::WEBSOCKET, $container);
+        expect($app->run())->toBeNull()->and($server->application)->toBe($application);
+    });
     it('wraps the websocket app in a narrow configuration adapter', function (): void {
         $server = new WebSocketAppTestServer();
         $defaultApplication = new WebSocketAppTestApplication();

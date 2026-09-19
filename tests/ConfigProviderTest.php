@@ -14,8 +14,8 @@ it('registers the WebSocket scope through the current app contract', function ()
     $config = (new ConfigProvider())();
     $dependencies = $config[DependencyConfigKey::DEPENDENCIES];
 
-    expect($config[AppConfigKey::APP_BY_SCOPE])->toBe([
-        Scope::WEBSOCKET->value => App::class,
+    expect($config[AppConfigKey::APP_ADAPTERS])->toBe([
+        \Componenta\App\WebSocket\WebSocketAppAdapter::class,
     ])
         ->and($config[AppConfigKey::BOOT_TARGET_ADAPTERS])->toBe([
             WebSocketBootTargetAdapter::class,
