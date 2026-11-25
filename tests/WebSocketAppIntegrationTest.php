@@ -114,7 +114,10 @@ describe('websocket app integration', function (): void {
 
         $target = (new WebSocketBootTargetAdapter())->create($app, Scope::WEBSOCKET);
 
-        expect($target)->toBeInstanceOf(WebSocketBootTargetInterface::class);
+        expect($target)->toBeInstanceOf(WebSocketBootTargetInterface::class)
+            ->not->toBe($app)
+            ->not->toBeInstanceOf(AppInterface::class)
+            ->and(is_callable([$target, 'run']))->toBeFalse();
 
         $target->application = $configuredApplication;
         $app->run();

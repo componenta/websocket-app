@@ -1,6 +1,6 @@
 # Componenta WebSocket App
 
-Application integration for `componenta/websocket-server`. The package adds a WebSocket application adapter, boot target, and bootloader for the `Scope::WEBSOCKET` runtime.
+Application integration for `componenta/websocket-server`. The package adds a WebSocket application, boot target, and bootloader for the `Scope::WEBSOCKET` runtime.
 
 ## Installation
 
@@ -16,7 +16,7 @@ The package exposes `Componenta\App\WebSocket\ConfigProvider` through Composer m
 
 | Service or config key | Purpose |
 |---|---|
-| `WebSocketAppAdapter` | Creates a WebSocket app for `Scope::WEBSOCKET`. |
+| `App` | Application service registered for `Scope::WEBSOCKET` via `AppConfigKey::APPLICATIONS`. |
 | `WebSocketBootTargetAdapter` | Creates the boot target for WebSocket configuration. |
 | `WebSocketBootloader` | Loads `config/websocket.php` when it exists. |
 | `App` | Runs the configured WebSocket server application. |

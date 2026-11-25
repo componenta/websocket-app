@@ -1,6 +1,6 @@
 # Componenta WebSocket App
 
-Интеграция `componenta/websocket-server` с приложением. Пакет добавляет адаптер WebSocket-приложения, точку загрузки и загрузчик для рантайм-области `Scope::WEBSOCKET`.
+Интеграция `componenta/websocket-server` с приложением. Пакет добавляет WebSocket-приложение, точку загрузки и загрузчик для рантайм-области `Scope::WEBSOCKET`.
 
 ## Установка
 
@@ -16,7 +16,7 @@ composer require componenta/websocket-app
 
 | Сервис или ключ конфигурации | Назначение |
 |---|---|
-| `WebSocketAppAdapter` | Создает WebSocket-приложение для `Scope::WEBSOCKET`. |
+| `App` | Сервис приложения для `Scope::WEBSOCKET`, зарегистрированный через `AppConfigKey::APPLICATIONS`. |
 | `WebSocketBootTargetAdapter` | Создает точку загрузки WebSocket-конфигурации. |
 | `WebSocketBootloader` | Загружает `config/websocket.php`, если файл существует. |
 | `App` | Запускает настроенное WebSocket-приложение сервера. |

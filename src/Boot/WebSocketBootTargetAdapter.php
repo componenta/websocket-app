@@ -24,7 +24,7 @@ final readonly class WebSocketBootTargetAdapter implements BootTargetAdapterInte
         if (!$app instanceof App) {
             throw new LogicException(sprintf(
                 'Scope "%s" expects app %s, %s given.',
-                $scope->name,
+                $scope->value,
                 App::class,
                 $app::class,
             ));

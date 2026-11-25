@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Componenta\App\WebSocket;
 
 use Componenta\App\ConfigKey as AppConfigKey;
+use Componenta\App\Scope;
 use Componenta\App\WebSocket\Boot\WebSocketBootTargetAdapter;
 use Componenta\App\WebSocket\Boot\WebSocketBootloader;
 use Componenta\Config\ConfigProvider as BaseConfigProvider;
@@ -18,7 +19,7 @@ final class ConfigProvider extends BaseConfigProvider
     protected function getConfig(): array
     {
         return [
-            AppConfigKey::APP_ADAPTERS => [WebSocketAppAdapter::class],
+            AppConfigKey::APPLICATIONS => [Scope::WEBSOCKET->value => App::class],
             AppConfigKey::BOOT_TARGET_ADAPTERS => [
                 WebSocketBootTargetAdapter::class,
             ],
